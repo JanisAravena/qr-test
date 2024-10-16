@@ -7,7 +7,6 @@ const QrScanner = () => {
 
   const handleScan = (data) => {
     if (data) {
-      // Enviar el código QR al backend para validarlo
       axios.post('http://localhost:5000/api/invitations/validate', { code: data.text })
         .then((response) => {
           alert(response.data.message);
@@ -29,7 +28,7 @@ const QrScanner = () => {
 
   return (
     <div>
-      <h2>Escanear Código QR</h2>
+      <h2>Escanear Código QR PRUEBA 1</h2>
       <button onClick={toggleFacingMode}>
         {facingMode === 'environment' ? 'Cambiar a cámara frontal' : 'Cambiar a cámara trasera'}
       </button>
@@ -38,7 +37,7 @@ const QrScanner = () => {
         onError={handleError}
         onScan={handleScan}
         style={{ width: '100%' }}
-        facingmode={facingMode} // Cambiado a minúsculas
+        facingMode={{ exact: facingMode }} // Ajuste aquí
       />
     </div>
   );
