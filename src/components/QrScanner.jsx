@@ -1,21 +1,21 @@
 import React, { useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import QrReader from 'react-qr-scanner';
+import { QrReader } from 'react-qr-reader'; // Import with curly braces
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import { QrContext } from '../QrContext';
-import { FaCamera } from 'react-icons/fa'; // Import the camera icon
+import { FaCamera } from 'react-icons/fa';
 import '../App.css';
 
 const QrScanner = () => {
-  const [facingMode, setFacingMode] = useState('environment'); // State for camera mode
+  const [facingMode, setFacingMode] = useState('environment');
   const { setIsQrValid } = useContext(QrContext);
   const navigate = useNavigate();
 
   const handleScan = (data) => {
     if (data) {
       console.log('QR Data:', data);
-      axios.post('http://localhost:5000/api/invitations/validate', { code: data.text })
+      axios.post('http://localhost:5000/api/invitations/validate', { code: data })
         .then((response) => {
           console.log('Server Response:', response);
           setIsQrValid(true);
