@@ -4,10 +4,11 @@ import QrReader from 'react-qr-scanner';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import { QrContext } from '../QrContext';
+import { FaCamera } from 'react-icons/fa'; // Import the camera icon
 import '../App.css';
 
 const QrScanner = () => {
-  const [facingMode] = useState('environment'); // Predeterminado a 'environment' para la cámara trasera
+  const [facingMode, setFacingMode] = useState('environment'); // State for camera mode
   const { setIsQrValid } = useContext(QrContext);
   const navigate = useNavigate();
 
@@ -36,6 +37,10 @@ const QrScanner = () => {
     console.error(err);
   };
 
+  const toggleFacingMode = () => {
+    setFacingMode((prevMode) => (prevMode === 'environment' ? 'user' : 'environment'));
+  };
+
   const containerStyle = {
     maxWidth: '500px',
     width: '100%',
@@ -52,26 +57,37 @@ const QrScanner = () => {
     fontSize: '24px',
     color: '#007bff',
     marginBottom: '20px',
-  
-    padding: '10px', // Añade padding para que el texto no esté pegado al borde
-    borderRadius: '5px' // Bordes redondeados
+    padding: '10px',
+    borderRadius: '5px'
   };
 
   const buttonStyle = {
     padding: '12px',
     border: 'none',
     borderRadius: '5px',
-    backgroundColor: '#007bff', // Color azul profesional
+    backgroundColor: '#007bff',
     color: 'white',
     fontSize: '16px',
     cursor: 'pointer',
     transition: 'background-color 0.3s ease',
     marginTop: '20px',
-    width: '100%' // Asegura que el botón ocupe todo el ancho del contenedor
+    width: '100%'
   };
 
   const buttonHoverStyle = {
-    backgroundColor: '#0056b3' // Color azul más oscuro al pasar el cursor
+    backgroundColor: '#0056b3'
+  };
+
+  const iconButtonStyle = {
+    padding: '10px',
+    border: 'none',
+    borderRadius: '50%',
+    backgroundColor: '#007bff',
+    color: 'white',
+    fontSize: '20px',
+    cursor: 'pointer',
+    transition: 'background-color 0.3s ease',
+    marginTop: '20px'
   };
 
   return (
@@ -82,7 +98,16 @@ const QrScanner = () => {
         onError={handleError}
         onScan={handleScan}
         style={{ width: '100%' }}
+        facingMode={facingMode}
       />
+      <button
+        style={iconButtonStyle}
+        onClick={toggleFacingMode}
+        onMouseOver={(e) => e.currentTarget.style.backgroundColor = buttonHoverStyle.backgroundColor}
+        onMouseOut={(e) => e.currentTarget.style.backgroundColor = iconButtonStyle.backgroundColor}
+      >
+        <FaCamera />
+      </button>
       <Link to="/enviar-invitacion">
         <button
           style={buttonStyle}
