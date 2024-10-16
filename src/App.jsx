@@ -1,11 +1,13 @@
-// import React from 'react';
+import React from 'react';
 import QrScanner from './components/QrScanner';
+import SendInvitation from './components/SendInvitation';
 
 function App() {
   return (
     <div className="App">
-      <h1>QR Event Scanner</h1>
+      <h1>Escáner de Eventos QR</h1>
       <QrScanner />
+      <SendInvitation />
     </div>
   );
 }
