@@ -3,13 +3,13 @@ import QrReader from 'react-qr-scanner';
 import axios from 'axios';
 
 const QrScanner = () => {
-  const [facingMode, setFacingMode] = useState('environment'); // Predeterminado a 'environment' para la cámara trasera
+  const [facingMode] = useState('environment'); // Predeterminado a 'environment' para la cámara trasera
 
   const handleScan = (data) => {
     if (data) {
       axios.post('http://localhost:5000/api/invitations/validate', { code: data.text })
         .then((response) => {
-          alert(response.data.message);
+          window.location.href = response.data.redirectUrl; // Redirigir a otra página
         })
         .catch((error) => {
           console.error(error);
@@ -22,22 +22,15 @@ const QrScanner = () => {
     console.error(err);
   };
 
-  const toggleFacingMode = () => {
-    setFacingMode((prevMode) => (prevMode === 'environment' ? 'user' : 'environment'));
-  };
-
   return (
     <div>
-      <h2>Escanear Código QR</h2>
-      <button onClick={toggleFacingMode}>
-        {facingMode === 'environment' ? 'Cambiar a cámara frontal' : 'Cambiar a cámara trasera'}
-      </button>
+      <h2>Escanear Código QR TEST 2</h2>
       <QrReader
         delay={300}
         onError={handleError}
         onScan={handleScan}
         style={{ width: '100%' }}
-        facingMode={facingMode} // Usar el valor de facingMode directamente
+        facingMode={{ exact: 'environment' }} // Usar siempre la cámara trasera
       />
     </div>
   );
